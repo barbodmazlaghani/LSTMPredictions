@@ -1,0 +1,2 @@
+We changed our features to Speed, Slope and Engine speed and trained model again with these. our goal is to reach point that we can predict fuel consumption with only speed and slope.
+Results are promising and it could predict increasing spikes good, but in decreasing ones like when momentary fuel consumption is very low, we have some problems.
