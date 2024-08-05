@@ -1,0 +1,2 @@
+We added slope feature but here we didn't use it  yet, but our 40 Majid files with Dena 791 is now complete and we can train it better ( we stopped at 10000) it can expand to 48000 data files.
+Result has improvement in urban and extra urban cycles.
