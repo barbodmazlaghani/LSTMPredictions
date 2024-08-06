@@ -1,0 +1,1 @@
+slopes corrected, also time interval is back to 1s.
