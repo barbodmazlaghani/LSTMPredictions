@@ -1,0 +1,1 @@
+Data is collected from 791 and its driver was Majid Naeemai it is 4 trips that slope was added by admin. you can find relative data in Data directory.
