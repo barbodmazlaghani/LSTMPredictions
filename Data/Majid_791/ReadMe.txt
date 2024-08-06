@@ -1,0 +1,1 @@
+trip_1 to trip_4 is extracted from 08_01_2024, 08_37_00_to_08_06_2024, 08_37_00 , and the goal is to test our model that has slope with new external data.
