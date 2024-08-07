@@ -1,4 +1,4 @@
-Time,Engine speed,Throttle position,Accelerator pedal position,Speed,,Trip fuel consumption,slope
+Time,Speed,Accelerator pedal position,Throttle position,FC_avg_rate,Engine speed,Trip fuel consumption,slope
 1,0,0,8.654542096,0,0,0,0
 2,0,0,8.654650123,0,0,0,0
 3,0,0,8.648168513,0,0,0,0

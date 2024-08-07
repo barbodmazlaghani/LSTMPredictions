@@ -1,0 +1,1 @@
+These data we collected from same source that model trained but we separated them before start, and they are not present in augmentation.
