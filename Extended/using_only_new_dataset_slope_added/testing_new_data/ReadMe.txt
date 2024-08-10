@@ -1,1 +1,1 @@
-The goal was to test new data on new model that has features like slope, but it did not give good result so we tried this model but it has problems again.My guess is that these errors come from different time intervals and lots of internet disconnection.
+The goal was to test new data on new model that has features like slope, but it did not give good result so we tried this model but it has problems again. My guess is that these errors come from different time intervals and lots of internet disconnection.
