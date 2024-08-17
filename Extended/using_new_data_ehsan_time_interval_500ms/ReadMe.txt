@@ -1,0 +1,1 @@
+The goal here is to check effect of lower time interval on our model, result did not improve but it is not certain because data is much less and we don't have 500 ms data more than that yet
