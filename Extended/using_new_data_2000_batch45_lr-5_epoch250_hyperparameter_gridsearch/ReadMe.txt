@@ -1,0 +1,1 @@
+Due to long file names, we should zip result images and csv files.
