@@ -1,0 +1,1 @@
+sl changed to 100, lr to 5e-5, epoch 50
