@@ -5,6 +5,9 @@ import time
 file_path = 'Device_DNUM_Data_07_21_2024, 15_54_00_to_07_28_2024, 15_54_00_org.xlsx'
 data_df = pd.read_excel(file_path, sheet_name='Data')
 
+
+file_path = 'C:/Users/s_alizadehnia/Desktop/LSTMPredictions/Data/Rajab_641/generated'
+data_df = pd.read_csv(file_path)
 # count = 1
 def get_altitude(lat, lon, retries=10):
     url = f"https://api.open-elevation.com/api/v1/lookup?locations={lat},{lon}"

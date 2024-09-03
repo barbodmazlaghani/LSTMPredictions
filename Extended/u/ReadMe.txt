@@ -1,0 +1,2 @@
+First step bigger the network from 64 to 128 neurons with 2 layers.In the mapping for gear i change 13 gear to 0.1 before we mapped to 0 and nots good. after that increase lr to 5e-4 and its early stopping and not good but with lr 1e-4 results better than all experience for 0.5seconds data.
+Added 1layer 128 neurons but it went to overfitting and early stopping.
