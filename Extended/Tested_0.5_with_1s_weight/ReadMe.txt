@@ -1,0 +1,1 @@
+We tested 0.5s test (Ehsan 0.5 test files) with 1s model weight and that Ok.
