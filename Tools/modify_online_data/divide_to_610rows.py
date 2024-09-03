@@ -21,7 +21,7 @@ def split_excel_file(input_file, output_file_prefix, rows_per_file):
 
 
 
-input_file = "updated_file_with_altitudes_and_slope.xlsx"
+input_file = "C://Users//bamir//Desktop//Repos//LSTMPredictions//Data//Rajab_641//trip.xlsx"
 output_file_prefix = "output_file"
 rows_per_file = 610
 
