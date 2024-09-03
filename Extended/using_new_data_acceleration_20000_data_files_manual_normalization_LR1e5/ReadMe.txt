@@ -1,0 +1,1 @@
+We use manual normalization for improve model and also generalization of model in different car data, The results show this model is  better than using standard scaler.

@@ -1,0 +1,1 @@
+The goal was find best batch size with sequence length 200 and results show batch size 64 was good for sequence length 200, but don't forget sequence 600 was good for NEDC with batch 45.

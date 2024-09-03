@@ -1,0 +1,1 @@
+This step we reduce the learning rate from 1e-5 to 5e-6 to predict NEDC and result shows this parameter is important and we must fine tune this parameter.

@@ -1,1 +1,3 @@
 Due to long filenames, we should zip results.
+
+We use LR scheduler for prevented under fitting or overfitting, we using grid search to find best value for start and stop LR-scheduler with different weight decay, we start LR from 1e-4 to 1e-6 and in the second approach start from 1e-5 to 1e-6 with three weight decay : 1e-4 , 1e-5 and 5e-5, We found the best parameters is start LR from 1e-4 to 1e-6 with 1e-5 weight decay.

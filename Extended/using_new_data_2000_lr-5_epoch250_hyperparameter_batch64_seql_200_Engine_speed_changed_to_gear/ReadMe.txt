@@ -1,0 +1,1 @@
+The goal was replace engine speed with gear and saw the effect of that. We mapped the 13(neutral gear) to 0 and mapped 14(reverse gear) to 1 because the revers gear similar to gear 1. Results show gear is good feature for train and test.

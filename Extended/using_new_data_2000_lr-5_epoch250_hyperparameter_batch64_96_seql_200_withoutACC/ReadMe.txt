@@ -1,0 +1,1 @@
+The goal is find effects of acceleration features in learning and deleted it and model was collapsed and results show acceleration is the good feature for learning. 

@@ -1,0 +1,1 @@
+The goal here was to check removing scaler how effects in accuracy of model. The training time is very high and doesn't train. (result was very bad)

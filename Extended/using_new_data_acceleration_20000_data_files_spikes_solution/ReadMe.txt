@@ -1,0 +1,1 @@
+We discovered that our model works bad in spike situations, so we tried some approaches to solve it, first we changed learning rate to ignore big changes, and we tried it with two values, the result was better but to improve it we used a more complex architecture consist of 4 BLSTM layers, the overall results improved.

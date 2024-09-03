@@ -1,0 +1,1 @@
+We used kernel L2-regularization and recurrent L2-regularization in keras model to prevent over estimate in spikes, but the regularization in keras wasn't good and results show this methods not good in keras library.

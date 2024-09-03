@@ -1,0 +1,1 @@
+After using L2-regularization 1e-4, we changed the batch size from 32 to 45 and results show its better in momentary NEDC. After that we must search grid in hyper parameters.

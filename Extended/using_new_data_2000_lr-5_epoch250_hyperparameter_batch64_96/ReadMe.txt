@@ -1,0 +1,1 @@
+The goal was to understand the effect of sequence length and batch size, Smaller sequence was good for instant consumption and bigger like 600 was good for NEDC and good batch size is between 45 to 64 and results show batch size 64 with sequence 200 was good.

@@ -1,0 +1,1 @@
+The goal is using weight decay (L2 regularization) to prevent over fitting, result for NEDC shows the L2-regularization is good to predict spikes and reduce over estimation.

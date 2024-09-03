@@ -1,0 +1,1 @@
+We change keras library to pytorch library to reduce training time and the train time is reduced, and we use batchsize 32 with 250epoch to found the effects of batch size parameter and result show its a important parameter and with smaller batch size results go better.
