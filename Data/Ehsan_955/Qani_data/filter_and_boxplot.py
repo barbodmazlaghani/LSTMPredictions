@@ -7,7 +7,6 @@ import os
 sns.set(style="whitegrid")
 
 
-
 def identify_valid_trips(data_df, trip_column='trip', time_column='time', min_interval=400, max_interval=2000,
                          min_rows=1000):
     """
@@ -55,7 +54,6 @@ def identify_valid_trips(data_df, trip_column='trip', time_column='time', min_in
     valid_trips = trip_validity[trip_validity['IsValid']][trip_column].tolist()
 
     return valid_trips
-
 
 
 def filter_report(report_df, valid_trips, trip_column='report_trip_number'):
@@ -241,8 +239,8 @@ def create_summary_report(report_df, trip_column='report_trip_number', output_di
 
 def main():
     # Path to your Excel file
-    excel_file = 'Qani_datas.xlsx'  # Replace with your actual file path
-    excel_files = 'combined_slope_added.csv'
+    # excel_file = 'Qani_datas.xlsx'
+    excel_file = "C:/Users/s_alizadehnia/Desktop/LSTMPredictions/Data/Ehsan_955/Qani_data/test_qani_data/Car_Dena_93 h 955 - ir 44_Data_10_05_2024, 01_00_00_to_10_13_2024, 13_43_00.xlsx"
     # Sheet names
     data_sheet = 'Data'
     report_sheet = 'Report'
@@ -261,11 +259,12 @@ def main():
     csv_output_dir = 'valid_trips_csv'  # Directory to save valid trip CSV files
     summary_output_dir = 'summary_reports'  # Directory to save summary reports (optional)
 
+    plots_output_dir = 'C:/Users/s_alizadehnia/Desktop/LSTMPredictions/Data/Ehsan_955/Qani_data/test_qani_data/'  # Directory to save boxplots
+    csv_output_dir = 'C:/Users/s_alizadehnia/Desktop/LSTMPredictions/Data/Ehsan_955/Qani_data/test_qani_data/'  # Directory to save valid trip CSV files
+    summary_output_dir = 'C:/Users/s_alizadehnia/Desktop/LSTMPredictions/Data/Ehsan_955/Qani_data/test_qani_data/'  # Directory to save summary reports (optional)
     # Read the Excel file
     try:
-        # data_df = pd.read_excel(excel_file, sheet_name=data_sheet)
-        data_df = pd.read_csv(excel_files)
-
+        data_df = pd.read_excel(excel_file, sheet_name=data_sheet)
         report_df = pd.read_excel(excel_file, sheet_name=report_sheet)
     except FileNotFoundError:
         print(f"Error: The file '{excel_file}' was not found.")
@@ -292,7 +291,7 @@ def main():
             time_column=data_time_column,
             min_interval=400,
             max_interval=2000,
-            min_rows=600  # New condition: minimum number of rows
+            min_rows=1000  # New condition: minimum number of rows
         )
     except ValueError as ve:
         print(f"Error during trip validation: {ve}")

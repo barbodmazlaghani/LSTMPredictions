@@ -5,7 +5,8 @@ import time
 import os
 
 # Path to the folder containing CSV files
-folder_path = "C:/Users/s_alizadehnia/Desktop/LSTMPredictions/Data/Ehsan_955/Qani_data/"  # Update to your folder path
+folder_path = "C:/Users/s_alizadehnia/Desktop/LSTMPredictions/Data/Ehsan_955/Qani_data/valid_trips_csv"  # Update to your folder path
+folder_path = "C:/Users/s_alizadehnia/Desktop/LSTMPredictions/Data/Ehsan_955/Qani_data/test_qani_data"  # Update to your folder path
 
 # Initialize last received altitude
 last_received_altitude = None
@@ -14,15 +15,15 @@ last_received_altitude = None
 def get_altitude(lat, lon, retries=10):
     global last_received_altitude  # Use the last received altitude as fallback
     url = f"https://api.open-elevation.com/api/v1/lookup?locations={lat},{lon}"
-
+    url = f'https://www.elevation-api.eu/v1/elevation?pts=[[{lat},{lon}]]'
     for attempt in range(retries):
         try:
             print("TRY", lat, lon)
             response = requests.get(url, timeout=10)
             if response.status_code == 200:
                 elevation_data = response.json()
-                if elevation_data['results']:
-                    altitude = elevation_data['results'][0]['elevation']
+                if 'elevations' in elevation_data and elevation_data['elevations']:
+                    altitude = elevation_data['elevations'][0]  # Extracting the first elevation value
                     print(f"Received altitude: {altitude}")
                     last_received_altitude = altitude  # Update last successful altitude
                     return altitude
@@ -59,7 +60,7 @@ for filename in os.listdir(folder_path):
         print(f"Processing file: {filename}")
         file_path = os.path.join(folder_path, filename)
         data_df = pd.read_csv(file_path)
-
+        # data_df = pd.read_excel(file_path, sheet_name='Data')
         # Check if 'latitude' and 'longitude' columns exist in the dataframe
         if 'latitude' not in data_df.columns or 'longitude' not in data_df.columns:
             print(f"Skipping file {filename} due to missing 'latitude' or 'longitude' columns.")
