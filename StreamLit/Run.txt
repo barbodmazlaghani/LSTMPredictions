@@ -1,0 +1,4 @@
+python -m streamlit run c:/Users/s_alizadehnia/Desktop/LSTMPredictions/StreamLit/main.py
+
+python -m streamlit run c:/Users/s_alizadehnia/Desktop/LSTMPredictions/StreamLit/app.py
+run this in cmd

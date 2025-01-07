@@ -240,7 +240,7 @@ def create_summary_report(report_df, trip_column='report_trip_number', output_di
 def main():
     # Path to your Excel file
     # excel_file = 'Qani_datas.xlsx'
-    excel_file = "C:/Users/s_alizadehnia/Desktop/LSTMPredictions/Data/Ehsan_955/Qani_data/test_qani_data/Car_Dena_93 h 955 - ir 44_Data_10_05_2024, 01_00_00_to_10_13_2024, 13_43_00.xlsx"
+    excel_file = r"C:\Users\s_alizadehnia\Downloads\Car_Dena_ef7tc_mt6_33 m 791 - ir 33_Data_10_22_2024, 01_00_00_to_10_29_2024, 08_20_00.xlsx"
     # Sheet names
     data_sheet = 'Data'
     report_sheet = 'Report'
@@ -259,9 +259,9 @@ def main():
     csv_output_dir = 'valid_trips_csv'  # Directory to save valid trip CSV files
     summary_output_dir = 'summary_reports'  # Directory to save summary reports (optional)
 
-    plots_output_dir = 'C:/Users/s_alizadehnia/Desktop/LSTMPredictions/Data/Ehsan_955/Qani_data/test_qani_data/'  # Directory to save boxplots
-    csv_output_dir = 'C:/Users/s_alizadehnia/Desktop/LSTMPredictions/Data/Ehsan_955/Qani_data/test_qani_data/'  # Directory to save valid trip CSV files
-    summary_output_dir = 'C:/Users/s_alizadehnia/Desktop/LSTMPredictions/Data/Ehsan_955/Qani_data/test_qani_data/'  # Directory to save summary reports (optional)
+    plots_output_dir = 'C:/Users/s_alizadehnia/Desktop/LSTMPredictions/Data/Ehsan_955/Qani_data/test_qani_data1/'  # Directory to save boxplots
+    csv_output_dir = 'C:/Users/s_alizadehnia/Desktop/LSTMPredictions/Data/Ehsan_955/Qani_data/test_qani_data1/'  # Directory to save valid trip CSV files
+    summary_output_dir = 'C:/Users/s_alizadehnia/Desktop/LSTMPredictions/Data/Ehsan_955/Qani_data/test_qani_data1/'  # Directory to save summary reports (optional)
     # Read the Excel file
     try:
         data_df = pd.read_excel(excel_file, sheet_name=data_sheet)
@@ -291,7 +291,7 @@ def main():
             time_column=data_time_column,
             min_interval=400,
             max_interval=2000,
-            min_rows=1000  # New condition: minimum number of rows
+            min_rows=600  # New condition: minimum number of rows
         )
     except ValueError as ve:
         print(f"Error during trip validation: {ve}")
