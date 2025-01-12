@@ -1,4 +1,18 @@
 python -m streamlit run c:/Users/s_alizadehnia/Desktop/LSTMPredictions/StreamLit/main.py
 
 python -m streamlit run c:/Users/s_alizadehnia/Desktop/LSTMPredictions/StreamLit/app.py
+python -m streamlit run c:/Users/s_alizadehnia/Desktop/LSTMPredictions/StreamLit/test.py
 run this in cmd
+
+
+اول چک کردن
+
+بعدش حذف زیر 200
+
+
+بعد محاسبه altitude
+
+
+
+augment
+npz deleted trip fuel ---

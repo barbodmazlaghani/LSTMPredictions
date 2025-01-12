@@ -2,6 +2,8 @@ import os
 import pandas as pd
 import numpy as np
 
+
+# @st.cache_data
 def handle_uploaded_file(uploaded_file):
     """
     Reads the uploaded file and returns a DataFrame.
