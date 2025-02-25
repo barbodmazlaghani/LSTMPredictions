@@ -1,95 +1,171 @@
-import os
-import numpy as np
-import pandas as pd
 import streamlit as st
-from sklearn.preprocessing import MinMaxScaler
-# from tensorflow.keras.models import Sequential
-# from tensorflow.keras.layers import LSTM, Dense, Bidirectional
-# from tensorflow.keras.models import load_model
+from streamlit_option_menu import option_menu  # کتابخانه برای منوی کناری
+import my_pages.fuel_plot
+import my_pages.model_trainer
+import streamlit.components.v1 as components
 
-# Helper functions
-def save_to_npz(folder, filename, data):
-    npz_path = os.path.join(folder, filename.replace('.csv', '.npz'))
-    np.savez(npz_path, data=data)
-    return npz_path
+particles_js = """<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Particles.js</title>
+  <style>
+  #particles-js {
+    position: fixed;
+    width: 200vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: -1; /* Send the animation to the back */
+  }
+  .content {
+    position: relative;
+    z-index: 1;
+    color: white;
+  }
+  
+</style>
+</head>
+<body>
+  <div id="particles-js"></div>
+  <div class="content">
+    <!-- Placeholder for Streamlit content -->
+  </div>
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    particlesJS("particles-js", {
+      "particles": {
+        "number": {
+          "value": 1300,
+          "density": {
+            "enable": true,
+            "value_area": 900
+          }
+        },
+        "color": {
+          "value": "#ffffff"
+        },
+        "shape": {
+          "type": "circle",
+          "stroke": {
+            "width": 0,
+            "color": "#000000"
+          },
+          "polygon": {
+            "nb_sides": 5
+          },
+          "image": {
+            "src": "img/github.svg",
+            "width": 100,
+            "height": 100
+          }
+        },
+        "opacity": {
+          "value": 0.5,
+          "random": true,
+          "anim": {
+            "enable": true,
+            "speed": 1,
+            "opacity_min": 0.2,
+            "sync": false
+          }
+        },
+        "size": {
+          "value": 2,
+          "random": true,
+          "anim": {
+            "enable": true,
+            "speed": 40,
+            "size_min": 0.1,
+            "sync": false
+          }
+        },
+        "line_linked": {
+          "enable": true,
+          "distance": 100,
+          "color": "#ffffff",
+          "opacity": 0.22,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 0.8,
+          "direction": "none",
+          "random": true,
+          "straight": false,
+          "out_mode": "out",
+          "bounce": true,
+          "attract": {
+            "enable": false,
+            "rotateX": 600,
+            "rotateY": 1200
+          }
+        }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": {
+            "enable": true,
+            "mode": "grab"
+          },
+          "onclick": {
+            "enable": true,
+            "mode": "repulse"
+          },
+          "resize": true
+        },
+        "modes": {
+          "grab": {
+            "distance": 100,
+            "line_linked": {
+              "opacity": 1
+            }
+          },
+          "bubble": {
+            "distance": 400,
+            "size": 2,
+            "duration": 2,
+            "opacity": 0.5,
+            "speed": 1
+          },
+          "repulse": {
+            "distance": 200,
+            "duration": 0.4
+          },
+          "push": {
+            "particles_nb": 2
+          },
+          "remove": {
+            "particles_nb": 3
+          }
+        }
+      },
+      "retina_detect": true
+    });
+  </script>
+</body>
+</html>
+"""
 
-def normalize_data(data):
-    scaler = MinMaxScaler()
-    return scaler, scaler.fit_transform(data)
 
-def create_bilstm_model(input_shape):
-    pass
-    # return model
+# Add custom CSS to the app
+components.html(particles_js,  scrolling=True)
 
-def train_model(model, X_train, y_train, epochs=10, batch_size=32):
-    # model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size)
-    pass
-    # return model
+# Sidebar navigation
+with st.sidebar:
+    selected = option_menu(
+        "Menu", 
+        ["Fuel Plot", "Model Trainer"],  # افزودن صفحات جدید
+        icons=["bar-chart", "robot"],   # آیکون‌ها برای صفحات
+        menu_icon="cast", 
+        default_index=0
+    )
 
-# Streamlit App
-st.title("BiLSTM Model Trainer and Tester")
-
-# Upload initial file
-st.header("1. Upload CSV/XLSX for Processing")
-uploaded_file = st.file_uploader("Upload your file", type=['csv', 'xlsx'])
-
-
-if uploaded_file:
-    # Read the file
-    if uploaded_file.name.endswith('.csv'):
-        df = pd.read_csv(uploaded_file)
-    else:
-        df = pd.read_excel(uploaded_file)
-    st.write("Uploaded Data:", df.head())
-
-    # Folder creation
-    folder = "processed_files"
-    os.makedirs(folder, exist_ok=True)
-    csv_path = os.path.join(folder, uploaded_file.name)
-    df.to_csv(csv_path, index=False)
-    st.success(f"File saved to {folder}.")
-
-    # Convert to NPZ
-
-    data = df.values
-    npz_path = save_to_npz(folder, uploaded_file.name, data)
-    st.success(f"Converted to NPZ format: {npz_path}")
-
-    # Normalize and Train Model
-    st.header("2. Normalize and Train Model")
-    scaler, normalized_data = normalize_data(data)
-    X_train = normalized_data[:, :-1]  # Features
-    y_train = normalized_data[:, -1]   # Labels
-
-    model = create_bilstm_model((X_train.shape[1], 1))
-    model = train_model(model, X_train, y_train)
-
-    model_path = os.path.join(folder, "bilstm_model.h5")
-    model.save(model_path)
-    st.success(f"Model trained and saved to {model_path}.")
-
-# Upload for testing
-st.header("3. Test the Model")
-model_file = st.file_uploader("Upload Model Weights (.h5)", type=['h5'])
-test_file = st.file_uploader("Upload Test CSV", type=['csv'])
-
-if model_file and test_file:
-    # Load the model
-    # model = load_model(model_file)
-    test_df = pd.read_csv(test_file)
-    st.write("Test Data:", test_df.head())
-
-    # Normalize test data
-    _, normalized_test_data = normalize_data(test_df.values)
-    X_test = normalized_test_data[:, :-1]
-    y_test = normalized_test_data[:, -1]
-
-    # Predictions
-    # predictions = model.predict(X_test)
-    st.write("Predictions:", predictions)
-
-    # Visualization
-    st.line_chart(predictions)
-    st.write("Actual vs Predicted:")
-    result_df = pd.DataFrame({"Actual": y_test.flatten(), "Predicted": predictions.flatten()})
-    st.write(result_df)
+# Main container for the pages
+if selected == "Fuel Plot":
+    # print('hello')
+    my_pages.fuel_plot.show_fuel_plot()
+elif selected == "Model Trainer":
+    my_pages.model_trainer.show_model_trainer()

@@ -28,7 +28,7 @@ def process_files_with_slope(folder_path, selected_columns):
 
         # Read the CSV file
         data_df = pd.read_csv(file_path)
-        data_df = data_df.sort_values(by=selected_columns["time_column"])
+        # data_df = data_df.sort_values(by=selected_columns["time_column"])
 
         # Fill missing 'correct_altitude' values using backward fill
         data_df['correct_altitude'] = data_df['correct_altitude'].fillna(method='bfill')

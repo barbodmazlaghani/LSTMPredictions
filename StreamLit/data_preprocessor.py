@@ -9,6 +9,7 @@ from Augment1 import process_files_in_folder
 from Augment2 import process_files_in_folder2
 from Augment_coolant import process_files_in_folder3
 from create_npz import augment
+from io import BytesIO
 
 
 # Function to check if both time and fuel consumption are monotonic increasing
@@ -136,66 +137,84 @@ def preprocess_and_save(df, selected_columns):
                 filename = f"{temp_folder}/trip_{trip}.csv"
                 group.to_csv(filename, index=False)
     
-        else:
-            df[selected_columns["engine_speed"]] = pd.to_numeric(df[selected_columns["engine_speed"]], errors='coerce')
-            df[selected_columns["fuel_column"]] = pd.to_numeric(df[selected_columns["fuel_column"]], errors='coerce')
-            df[selected_columns["time_column"]] = pd.to_numeric(df[selected_columns["time_column"]], errors='coerce')
-            df[selected_columns["voltage"]] = pd.to_numeric(df[selected_columns["voltage"]], errors='coerce')
-            # If no trip_column, identify trips based on Engine_speed and Battery_voltage
-            trip_number = 1
-            trip_data = []
-            current_trip = []
+    else:
+        
+        df = df[1:]
+        print('\n /n',df)
+        
+        df[selected_columns["engine_speed"]] = pd.to_numeric(df[selected_columns["engine_speed"]], errors='coerce')
+        df[selected_columns["fuel_column"]] = pd.to_numeric(df[selected_columns["fuel_column"]], errors='coerce')
+        df[selected_columns["time_column"]] = pd.to_numeric(df[selected_columns["time_column"]], errors='coerce')
+        df[selected_columns["voltage"]] = pd.to_numeric(df[selected_columns["voltage"]], errors='coerce')
+        # If no trip_column, identify trips based on Engine_speed and Battery_voltage
+        trip_number = 1
+        trip_data = []
+        current_trip = []
 
-            for index, row in df.iterrows():
-                engine_speed = row[selected_columns["engine_speed"]]
-                battery_voltage = row[selected_columns["voltage"]]
+        for index, row in df.iterrows():
+            # print('1')
+            engine_speed = row[selected_columns["engine_speed"]]
+            battery_voltage = row[selected_columns["voltage"]]
 
-                if engine_speed > 0 and battery_voltage > 0:  # Start or continue a trip
-                    current_trip.append(row)
-                else:  # End the current trip
-                    if current_trip:
-                        trip_data.append(current_trip)
-                        current_trip = []
+            if engine_speed > 0 and battery_voltage > 0:  # Start or continue a trip
+                # print('2')
+                current_trip.append(row)
+            else:  # End the current trip
+                # print('3')
+                if current_trip:
+                    # print('4')
+                    trip_data.append(current_trip)
+                    current_trip = []
 
-            # Save the last trip if exists
-            if current_trip:
-                trip_data.append(current_trip)
+        # Save the last trip if exists
+        if current_trip:
+            # print('5')
+            trip_data.append(current_trip)
 
-            # Process each identified trip
-            for idx, trip in enumerate(trip_data):
-                trip_df = pd.DataFrame(trip)
+        # Process each identified trip
+        for idx, trip in enumerate(trip_data):
+            # print('6')
+            trip_df = pd.DataFrame(trip)
 
-                # Check monotonicity
-                if not is_monotonic_increasing_with_stability(trip_df[selected_columns["time_column"]], trip_df[selected_columns["fuel_column"]]):
-                    # Split based on monotonicity
-                    split_groups = []
-                    current_group = []
-                    last_time = None
-                    last_fuel = None
+            # Check monotonicity
+            if not is_monotonic_increasing_with_stability(trip_df[selected_columns["time_column"]], trip_df[selected_columns["fuel_column"]]):
+                # Split based on monotonicity
+                # print('7')
+                split_groups = []
+                current_group = []
+                last_time = None
+                last_fuel = None
 
-                    for index, row in trip_df.iterrows():
-                        if last_time is None or (row[selected_columns["time_column"]] >= last_time and (row[selected_columns["fuel_column"]] >= last_fuel or row[selected_columns["fuel_column"]] == last_fuel)):
-                            current_group.append(row)
-                        else:
-                            split_groups.append(pd.DataFrame(current_group))
-                            current_group = [row]
-                        last_time = row[selected_columns["time_column"]]
-                        last_fuel = row[selected_columns["fuel_column"]]
+                for index, row in trip_df.iterrows():
+                    # print('8')
+                    if last_time is None or (row[selected_columns["time_column"]] >= last_time and (row[selected_columns["fuel_column"]] >= last_fuel or row[selected_columns["fuel_column"]] == last_fuel)):
+                        current_group.append(row)
+                        # print('9')
+                    else:
+                        # print('10')
+                        split_groups.append(pd.DataFrame(current_group))
+                        current_group = [row]
+                    last_time = row[selected_columns["time_column"]]
+                    last_fuel = row[selected_columns["fuel_column"]]
 
-                    split_groups.append(pd.DataFrame(current_group))
+                split_groups.append(pd.DataFrame(current_group))
 
-                    # Save each split group
-                    for i, split_group in enumerate(split_groups):
-                        filename = f"{temp_folder}/part_{idx+1}_{i+1}"
-                        split_group.to_csv(filename, index=False)
-                        print(f"Saved {filename}")
-                else:
-                    # Save monotonic trip
-                    filename = f"{temp_folder}/trip_{trip_number}"
-                    trip_df.to_csv(filename, index=False)
+                # Save each split group
+                for i, split_group in enumerate(split_groups):
+                    # print('11')
+                    filename = f"{temp_folder}/part_{idx+1}_{i+1}.csv"
+                    split_group.to_csv(filename, index=False)
                     print(f"Saved {filename}")
-                    trip_number += 1
+            else:
+                print('12')
+                # Save monotonic trip
+                filename = f"{temp_folder}/trip_{trip_number}.csv"
+                trip_df.to_csv(filename, index=False)
+                print(f"Saved {filename}")
+                trip_number += 1
 
+
+    # if selected_columns["latitude_column"] and selected_columns["longitude_column"] is not None
 
     check_len_rows(temp_folder, min_rows=50)
 
@@ -233,8 +252,8 @@ def preprocess_and_save(df, selected_columns):
     X_augmented = np.array(X_augmented)
     y_augmented = np.array(y_augmented)
 
-    delete_temp_folder(temp_folder)
-    delete_temp_folder(temp_folder2)
+    # delete_temp_folder(temp_folder)
+    # delete_temp_folder(temp_folder2)
 
     save_path = 'train_file.npz'
     # Saving to npz file
@@ -246,4 +265,4 @@ def preprocess_and_save(df, selected_columns):
     # امکان دانلود فایل برای کاربر
     with open(save_path, 'rb') as file:
         st.download_button(label="دانلود فایل npz", data=file, file_name=save_path, mime="application/octet-stream")
-        
+    

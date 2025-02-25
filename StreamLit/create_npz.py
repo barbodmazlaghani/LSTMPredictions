@@ -5,12 +5,15 @@ import streamlit as st
 SEQUENCE_LENGTH = 40
 
 # Data processing function (optimized)
+import pandas as pd
+import numpy as np
+
 def process_file(file_path, selected_columns):
     df = pd.read_csv(file_path)
     if df.empty:
         return None, None
 
-    df[selected_columns["time_column"]] -= df[selected_columns["time_column"]].iloc[0]  # Adjust the time to start from 0
+    df[selected_columns["time_column"]] -= df[selected_columns["time_column"]].iloc[0]  # Adjust time to start from 0
     df['Momentary fuel consumption1'] = df[selected_columns["fuel_column"]].diff().fillna(0)
     df['Momentary fuel consumption2'] = df[selected_columns["fuel_column"]].diff().shift(-1).fillna(0)
     df['Acceleration1'] = df[selected_columns["speed_column"]].diff().fillna(0)
@@ -19,10 +22,21 @@ def process_file(file_path, selected_columns):
 
     df = df.iloc[:-5]
 
-    features = df[['Acceleration1', 'Acceleration2', selected_columns["speed_column"], selected_columns["gear_column"], 'slope']].values
+    # Normalize coolant column
+    coolant_min = 0
+    coolant_max = 100
+    df['coolant_normalized'] = 2 * ((df[selected_columns["coolant_column"]] - coolant_min) / (coolant_max - coolant_min))
+
+    # # Apply transformation
+    # df['coolant_nima'] = (-np.exp(3 * df['coolant_normalized'] - 2) + np.e) * 0.3875
+
+    # df['coolant_nima'] = df[selected_columns["coolant_column"]] - 100
+    df['coolant_nima'] = (  3/(df['coolant_normalized'] + 1) -1  ) / 2
+    features = df[['Acceleration1', 'Acceleration2','coolant_nima', selected_columns["speed_column"], selected_columns["gear_column"], 'slope']].values
     target = df['Momentary fuel consumption2'].values
 
     return features, target
+
 
 # Function to slice data into chunks
 def slice_data(features, target, sequence_length):

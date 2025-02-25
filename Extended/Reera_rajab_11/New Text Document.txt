@@ -1,0 +1,4 @@
+min_val_x = torch.tensor([-10, -10 ,0,       0   ,0,  -10], dtype=torch.float32).to(DEVICE)
+max_val_x = torch.tensor([ 10,   10 ,1  ,  150,   6,   10], dtype=torch.float32).to(DEVICE)
+
+Y = 10000
